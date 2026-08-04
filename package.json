@@ -1,0 +1,16 @@
+{
+  "name": "gushen",
+  "version": "1.0.0",
+  "description": "股神 - 股票监测工作台，实时技术指标监测 + 量能分析 + 买卖信号提示",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["stock", "finance", "trading", "echarts", "monitor"],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
