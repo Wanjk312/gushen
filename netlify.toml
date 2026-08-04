@@ -1,0 +1,39 @@
+# Netlify 部署配置
+# 文档：https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # 静态文件目录：项目根目录（index.html / css/ / js/）
+  publish = "."
+  # Serverless 函数目录
+  functions = "netlify/functions"
+  # 构建命令：纯静态项目不需要构建
+  command = ""
+
+[functions]
+  # Node.js 版本：18+ 支持 TextDecoder('gb18030')
+  node_version = "18"
+
+# API 路由：把 /api/* rewrite 到 serverless function
+# status 200 = rewrite（浏览器 URL 不变，内部转发）
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+# 单页应用回退：所有未匹配的路径都返回 index.html
+# （本项目是单页应用，避免刷新 404）
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  # 排除静态资源和 API
+  conditions = {Path = ["!css/*", "!js/*", "!netlify/*", "!api/*"]}
+
+# 安全头
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
